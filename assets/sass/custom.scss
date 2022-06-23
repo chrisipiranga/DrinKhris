@@ -1,0 +1,116 @@
+@import 'variables';
+
+$size: 30;
+@for $i from 1 through $size {
+  .font-size-#{$i} {
+    font-size: #{$i}px;
+  }
+}
+
+.text-gold {
+  color: $gold !important;
+}
+
+._fade {
+  display: none !important;
+  &.show {
+    display: block !important;
+  }
+}
+
+.text-lightgray {
+  color: $lightgray !important;
+}
+
+* {
+  transition: width 0.2s 0s ease, height 0.2s 0s ease, margin 0.2s 0s ease, border 0.2s 0s ease, background 0.2s 0s ease, transform 0.2s 0s ease, opacity 0.2s 0s ease, box-shadow 0.2s 0s ease, border-radius 0.2s 0s ease, text-shadow 0.2s 0s ease;
+
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+body {
+  background-color: var(--bs-gray-800);
+  color: var(--bs-white);
+
+  .form-switch {
+    input[type=checkbox], label {
+      cursor: pointer;
+    }
+  }
+
+  .cocktail-menu, .inventory-menu {
+
+    [readonly] {
+      user-select: none !important;
+      pointer-events: none !important;
+      opacity: 0.3;
+    }
+
+    .form-control {
+      &::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+      }
+
+      background-color: var(--bs-gray-800);
+      color: var(--bs-white);
+    }
+
+    .form-switch {
+      input[type=checkbox] {
+        float: none !important;
+      }
+
+      label {
+        display:none !important;
+      }
+    }
+
+    border-radius: 10px;
+
+    .logo {
+      img {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    .cocktails {
+      &:last-of-type {
+        border-top: 1px solid ;
+      }
+
+      .ingredient-list {
+        display: inline;
+        list-style: none;
+        padding: 0px;
+
+        li {
+          display: inline;
+
+          &:after {
+            content: ", ";
+          }
+
+          &:last-child::after {
+            content: "";
+          }
+        }
+      }
+    }
+
+    .no-cocktails {
+      display: none;
+    }
+
+    div:not(.cocktails) + .no-cocktails {
+      display: block;
+    }
+
+    .stick-button {
+      background-color: var(--bs-gray-800);
+      position: sticky;
+      bottom: 0;
+    }
+  }
+}
