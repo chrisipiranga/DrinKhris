@@ -24,3 +24,4 @@ yarn-error.log*
 
 # SASS Generated
 /src/css
+.vscode/settings.json
