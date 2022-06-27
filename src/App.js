@@ -43,7 +43,7 @@ function App() {
       <Container>
         <Collapse in={showInventory}>
           <Row>
-            <Col xs={12} lg={9} xl={8} className="ms-auto me-auto">
+            <Col xs={12} lg={8} xl={7} xxl={6} className="ms-auto me-auto">
               <Inventory
                 inventoryList={inventoryList}
                 setInventoryList={setInventoryList}
@@ -54,7 +54,7 @@ function App() {
         </Collapse>
         <Collapse in={!showInventory}>
           <Row>
-            <Col xs={12} lg={9} xl={8} className="ms-auto me-auto pb-3">
+            <Col xs={12} lg={8} xl={7} xxl={6} className="ms-auto me-auto pb-3">
               <Cocktails
                 inventoryList={inventoryList}
                 setShowInventory={setShowInventory}
