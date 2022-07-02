@@ -23,7 +23,11 @@ function Cocktails({ inventoryList, setShowInventory }) {
       await api
         .get("/cocktails")
         .then((response) => {
-          setCocktails(response.data);
+          const sortedList = response.data.sort((a, b) => // Sorting
+            a.name > b.name ? 1 : -1
+          );
+
+          setCocktails(sortedList);
           setLoading(false);
         })
         .catch((error) => {

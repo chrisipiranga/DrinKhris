@@ -15,6 +15,7 @@ import Loading from "./Loading";
 function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
 
   const [ingredients, setIngredients] = useState([]);
+  const [ingredientQuery, setIngredientQuery] = useState("");
   const [stickButton, setStickButton] = useState(false);
   const [erroLoading, setErroLoading] = useState({});
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,7 @@ function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
     saveLocalStorage(ingredients);
     setShowInventory(false);
     setStickButton(false);
+    setIngredientQuery("");
     scrollUp();
   };
 
@@ -38,7 +40,11 @@ function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
       await api
         .get("/ingredients")
         .then((response) => {
-          setIngredients(response.data);
+          const sortedList = response.data.sort((a, b) => // Sorting
+            a.name > b.name ? 1 : -1
+          );
+
+          setIngredients(sortedList);
           setLoading(false);
         })
         .catch((error) => {
@@ -77,6 +83,18 @@ function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
             Expiration date
           </Col>
         </Row>
+        <Row className="g-0">
+          <Col xs={12}>
+            <Form.Group controlId="find" className="mt-3">
+              <Form.Control
+                type="text"
+                placeholder="Find Ingredient?"
+                value={ingredientQuery}
+                onChange={(e) => setIngredientQuery(e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           {/* Mapping List based on API fetch */}
           {ingredients.map((ingredient, index) => {
@@ -89,7 +107,18 @@ function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
             // Rendering hook form fields
 
             return (
-              <Row key={index} className="my-3 g-0">
+              <Row
+                key={index}
+                className={
+                  (ingredientQuery !== "" &&
+                    ingredient.name
+                      .toLowerCase()
+                      .includes(ingredientQuery.toLowerCase())) ||
+                  !ingredientQuery
+                    ? "my-3 g-0"
+                    : "d-none"
+                }
+              >
                 <input
                   type="hidden"
                   name={`${fieldName}.alcoholic`}
@@ -141,8 +170,9 @@ function Inventory({ inventoryList, setInventoryList, setShowInventory}) {
                       required={false}
                       placeholder="Expiration Date"
                       className={`form-control text-center ${
-                        errors.ingredient?.[index]?.expireDate?.message ?
-                        "is-invalid" : ""
+                        errors.ingredient?.[index]?.expireDate?.message
+                          ? "is-invalid"
+                          : ""
                       }`}
                       onChange={() => {
                         setStickButton(true);
